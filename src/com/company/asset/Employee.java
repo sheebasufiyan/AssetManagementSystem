@@ -4,75 +4,83 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Employee {
-    private String employeeName;
-    private int employeeNumber;
+    private String name;
+    private int number;
     private String dob;
     private String address;
-    private Designation designation;
+    private Designations designation;
     private int organisation;
-    private Asset asset;
-    ArrayList<Asset> assets=new ArrayList<>();
-    Employee(){
-
+    private List<Integer> assetNumbers= new ArrayList<>();
+    Employee()
+    {
     }
-
-    Employee(String name, int number, String dob, String address, Designation designation, int Organization,Asset asset) {
-        this.employeeName = name;
-        this.employeeNumber = number;
-        this.dob = dob;
-        this.address = address;
-        this.designation = designation;
-        this.organisation = Organization;
-        this.asset=asset;
-
-    }
-    public void setEmployeeName(String name){
-        employeeName=name;
-    }
-
-    public void setEmployeeNumber(int num){
-        employeeNumber=num;
-    }
-    public void setdob(String dob){
+    Employee(String name, int number, String dob, String address, Designations designation, int organisation)
+    {
+        this.name=name;
         this.dob=dob;
-    }
-    public void setAddress(String address){
+        this.number=number;
         this.address=address;
+        this.designation=designation;
+        this.organisation=organisation;
     }
-    public void setDesignation(Designation desig){
-        designation=desig;
+    public String getName()
+    {
+        return name;
     }
-    public void  setOrganisation(int org){
-        organisation=org;
+    public String getDesignation()
+    {
+        return designation.name();
     }
-    public void setAsset(Asset a){asset=a;}
-    public  void addAsset(Asset a){
-        assets.add(a);
+    public int getNumber()
+    {
+        return number;
     }
-
-
-    public String getEmployeeName(){
-        return employeeName;
+    public void setNumber(int number)
+    {
+        this.number=number;
     }
-    public int getEmployeeNumber(){
-        return employeeNumber;
-    }
-    public String getDob(){
-        return dob;
-    }
-    public String getAddress(){
-        return address;
-    }
-    public Designation getDesignation(){
-        return designation;
-    }
-    public int getOrganisation(){
+    public int getOrganisation()
+    {
         return organisation;
     }
-    public Asset getAsset(){ return asset;}
-    public String toString() {
-        return "\n" + employeeName + "," + employeeNumber + " , " + dob + " , " + address + " , " + designation + " , " + organisation;
+    public void setOrganisation(int organisation)
+    {
+        this.organisation=organisation;
     }
-
-
+    public String getAddress()
+    {
+        return  address;
+    }
+    public void setAddress(String address)
+    {
+        this.address=address;
+    }
+    public void setDesignation(Designations d)
+    {
+        designation=d;
+    }
+    public void setName(String name)
+    {
+        this.name=name;
+    }
+    public void setDob(String dob)
+    {
+        this.dob=dob;
+    }
+    public String getDob()
+    {
+        return dob;
+    }
+    public void setAssetNumbers(int assetNumbers)
+    {
+        this.assetNumbers.add(assetNumbers);
+    }
+    public List<Integer> getAssetNumbers()
+    {
+        return assetNumbers;
+    }
+    public void removeAsset(int assetNumber)
+    {
+        assetNumbers.remove(assetNumber);
+    }
 }

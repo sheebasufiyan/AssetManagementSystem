@@ -1,89 +1,68 @@
 package com.company.asset;
-import java.util.ArrayList;
-import java.util.List;
 
-import java.util.stream.Collectors;
+import java.text.DecimalFormat;
+import java.util.*;
+
+public class EmployeeService {
+    static int i;
+    private List<Employee> list1=new ArrayList<Employee>();
+
+    String getHashmap(int company)
+    {
+        Map<Integer,String> org =new HashMap<Integer,String>();
+        org.put(1,"Robosoft");
+        org.put(2,"Mphasis");
+        org.put(3,"Apisero");
+        org.put(4,"Infosys");
+        org.put(5,"Accenture");
+        return org.get(company);
+    }
 
 
+    public int employeeNumber()
+    {
+        DecimalFormat decimalFormat=new DecimalFormat("0000");
+        Calendar calendar=Calendar.getInstance();
+        String str=calendar.get(Calendar.YEAR)+decimalFormat.format(i++);
+        return Integer.parseInt(str);
+    }
 
-public class EmployeeService  {
-    public static ArrayList<Employee> employees=new ArrayList<Employee>();
-    ArrayList<Asset> assets=new ArrayList<Asset>();
+    public void register(String name, String dob, String address, Designations designation, int organisation)
+    {
+        Employee e=new Employee(name,employeeNumber(),dob,address,designation,organisation);
+        list1.add(e);
+    }
 
-    Employee e6=createObject("Rabindranath",12,"18/09/1999","Chikmagaluru",Designation.PROJECT_LEADER,3);
-
-    private static Employee createObject(String name,int num, String dob, String address, Designation desig, int org){
+    public void registerSet(String name, String dob, String address, Designations designation, int organisation)
+    {
         Employee e=new Employee();
-        e.setEmployeeName(name);
-        e.setEmployeeNumber(num);
-        e.setdob(dob);
+        e.setName(name);
+        e.setDob(dob);
         e.setAddress(address);
-        e.setDesignation(desig);
-        e.setOrganisation(org);
-        return e;
-
+        e.setDesignation(designation);
+        e.setOrganisation(organisation);
+        e.setNumber(employeeNumber());
+        list1.add(e);
     }
 
-    public Employee getList() {
-        return e6;
+    public void display()
+    {
+        System.out.println("Name\tEmployeeNumber");
+        list1.forEach(e->print(e));
     }
 
-    public void register(Employee a){
-
-        employees.add(a);
+    public void print(Employee e)
+    {
+        System.out.println(e.getName()+"\t"+e.getNumber());
     }
-    public void register(Employee a, Employee b, Employee c, Employee d, Employee e){
-        employees.add(a);
-        employees.add(b);
-        employees.add(c);
-        employees.add(d);
-        employees.add(e);
 
+    public List<Employee> getList()
+    {
+        return list1;
     }
-    public void display(){
-
-        employees.forEach(e->System.out.print(e.getEmployeeName()+"--"+e.getEmployeeNumber()+"--"+e.getDob()+"--"+e.getAddress()+"--"+e.getDesignation()+"--"+e.getOrganisation()+"\n"));
+    public void setList1(Employee e, int index)
+    {
+        list1.remove(index);
+        list1.add(index, e);
+    }
 }
-//    public void displayAfterSorting(){
-//        c.displaySort(employees);
-//        display();
-//    }
-//
-//    private void updateException (int index) throws MyException{
-//        if(index>employees.size()){
-//            throw new MyException("Array Index out of bound Exception\n");
-//        }
-//    }
-//
-//    public void update ( int index) {
-//        try {
-//            updateException(index);
-//            Employee e = new Employee();
-//            e = employees.get(index);
-//
-//            e.setDesignation(Designation.PROJECT_LEADER);
-//            employees.set(index, e);
-//
-//            System.out.println("________________________________________________________\nDetails after updation");
-//            display();
-//
-//
-//        } catch (MyException e) {
-//            System.out.println("Exception caught.....Array out of bound during update method");
-////        }
-////    }
-//    public void remove(int index){
-//        try {
-//            employees.remove(index);
-//            System.out.println("________________________________________________________\ncom.company.Employee details after removing an employee of index " + index);
-//            display();
-//        }
-//        catch (Exception e){
-//            System.out.println("Array index out of bound exception caught during remove method");
-//        }
-   }
-
-
-
-
-

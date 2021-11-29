@@ -1,7 +1,5 @@
 package com.company.asset;
 
-import java.util.List;
-
 public class Asset {
     private String assetName;
     private int make;
@@ -10,8 +8,21 @@ public class Asset {
     private Brand brand;
     private int assetNumber;
     private int IMEI;
+    private int store=1;
+    private int scrap=0;
+
 
     public Asset() {}
+
+    public Asset(String assetName, int assetNumber, int make, int amount, String invoiceDetails, Brand brand,int imei) {
+        this.assetName = assetName;
+        this.make = make;
+        this.amount = amount;
+        this.invoiceDetails = invoiceDetails;
+        this.brand = brand;
+        this.assetNumber = assetNumber;
+        this.IMEI=imei;
+    }
 
     public Asset(String assetName, int assetNumber, int make, int amount, String invoiceDetails, Brand brand) {
         this.assetName = assetName;
@@ -20,6 +31,7 @@ public class Asset {
         this.invoiceDetails = invoiceDetails;
         this.brand = brand;
         this.assetNumber = assetNumber;
+
     }
 
     public void setAssetName(String name) {
@@ -42,8 +54,26 @@ public class Asset {
         assetNumber = number;
     }
 
+
+
     public void setBrand(Brand brand) {
         this.brand = brand;
+    }
+
+    public void setStore(int store){
+        this.store=store;
+    }
+
+    public void setScrap(int scrap){
+        this.scrap=scrap;
+    }
+
+    public int getScrap() {
+        return scrap;
+    }
+
+    public int getStore() {
+        return store;
     }
 
     public String getAssetName() {
@@ -77,6 +107,20 @@ public class Asset {
     public Brand getBrand() {
         return brand;
     }
+
+    public boolean isScrapped()
+    {
+        if(scrap==1)
+            return true;
+        else
+            return false;
+    }
+    public boolean isAssignedToEmployee()
+    {
+        if(store == 1)
+            return true;
+        else
+            return false;
+    }
+
 }
-
-
