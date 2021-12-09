@@ -44,6 +44,7 @@ public class AssetController {
                             "asset name,asset number, make, amount, invoice details");
                     String assetName = sc.next();
                     int assetNumbers = sc.nextInt();
+                    int typeNumber;
                     int make = sc.nextInt();
                     int amount = sc.nextInt();
                     String invoiceDetails = sc.next();
@@ -53,42 +54,52 @@ public class AssetController {
                     Brand brand;
                     Boolean condition = true;
                     if (assetNumbers > 10000000 && assetNumbers < 99999999) {
+                                Asset asset1=assetManager.assets.stream().filter(asset -> asset.getAssetNumber()==assetNumbers).findAny().orElse(null);
+                               if(asset1!=null) {
+                                   System.out.println("Asset Number already exist, Enter a new asset number");
+                                   condition = false;
+                               }
 
-                        for (int ind = 0; ind < assetManager.assets.size(); ind++) {
-                            Asset assetDetails = assetManager.get(ind);
-                            if (assetNumbers == assetDetails.getAssetNumber()) {
-                                System.out.println("Asset Number already exist, Enter a new asset number");
-                                condition = false;
-
-                            }
-                        }
                         while (condition) {
-                            if (assetName.equals("mobile")) {
-                                System.out.println("brand id, brand name, logo,IMEI");
-                                brandId = sc.nextInt();
-                                brandName = sc.next();
-                                logo = sc.next();
-                                int IMEI = sc.nextInt();
-                                brand = new Brand(brandId, brandName, logo);
-                                assetManager.createBrand(brand);
 
-                                Asset asset = new Asset(assetName, assetNumbers, make, amount, invoiceDetails, brand, IMEI);
-                                assetManager.createAsset(asset);
-                                System.out.println("Asset created successfully");
-                                condition = false;
-                            } else {
                                 System.out.println("brand id, brand name, logo");
                                 brandId = sc.nextInt();
                                 brandName = sc.next();
                                 logo = sc.next();
                                 brand = new Brand(brandId, brandName, logo);
                                 assetManager.createBrand(brand);
-
-                                Asset asset = new Asset(assetName, assetNumbers, make, amount, invoiceDetails, brand);
-                                assetManager.createAsset(asset);
-                                System.out.println("Asset created successfully");
-                                condition = false;
-                            }
+                                System.out.println("Enter type pof Asset\n" +
+                                        "\n" +
+                                        "1.COMPUTER,\n" +
+                                        "2.MOBILE,\n" +
+                                        "3.CABLE,\n" +
+                                        "4.TABLE,\n" +
+                                        "5.CHAIR;");
+                                int type=sc.nextInt();
+                                switch (type){
+                                    case 1:Asset asset=new Asset(assetName,assetNumbers,make,amount,invoiceDetails,brand,TypeOf.COMPUTER,false,false);
+                                            assetManager.createAsset(asset);
+                                            condition=false;
+                                    break;
+                                    case 2:System.out.println("Enter IMEI number");
+                                        long IMEI=sc.nextLong();
+                                        asset=new Asset(assetName,assetNumbers,make,amount,invoiceDetails,brand,TypeOf.MOBILE,IMEI,false,false);
+                                        assetManager.createAsset(asset);
+                                        condition=false;
+                                        break;
+                                    case 3: asset=new Asset(assetName,assetNumbers,make,amount,invoiceDetails,brand,TypeOf.CABLE,false,false);
+                                        assetManager.createAsset(asset);
+                                        condition=false;
+                                        break;
+                                    case 4: asset=new Asset(assetName,assetNumbers,make,amount,invoiceDetails,brand,TypeOf.TABLE,false,false);
+                                        assetManager.createAsset(asset);
+                                        break;
+                                    case 5:asset=new Asset(assetName,assetNumbers,make,amount,invoiceDetails,brand,TypeOf.CHAIR,false,false);
+                                        assetManager.createAsset(asset);
+                                        condition=false;
+                                        break;
+                                    default:System.out.println("Invaliod type");
+                                }
                         }
                     } else {
                         System.out.println("Enter 8 digits valid asset number");

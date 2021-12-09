@@ -1,15 +1,16 @@
 package com.company.asset;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
-
 public class AssetManager {
     List<Asset> assets=new ArrayList<Asset>();
     List<Brand>brands=new ArrayList<>();
     EmployeeService employee=new EmployeeService();
     Scanner s=new Scanner(System.in);
+    HashMap<Integer,Asset> assetHashMap=new HashMap<Integer, Asset>();
 
     public void registerEmployee(String name, String dob, String address, Designations designation, int organisation)
     {
@@ -19,11 +20,8 @@ public class AssetManager {
 
     public void createAsset(Asset asset){
         assets.add(asset);
-    }
-    public Asset get(int id)
-    {
-        Asset es = (Asset) assets.get(id);
-        return es;
+        assetHashMap.put(asset.getAssetNumber(),asset);
+        System.out.println("Asset created successfully");
     }
 
     public void createBrand(Brand brand){
@@ -37,8 +35,10 @@ public class AssetManager {
         int i=0;
         int employeeNumber=s.nextInt();
         Employee e=employee.getList().stream().filter(e1->employeeNumber==e1.getNumber()).findAny().orElse(null);
-        if(e != null)
+        if(e != null) {
             assignAsset(e);
+            System.out.println("Asset is assigned to employee");
+        }
         else
         {
             System.out.println("Employee number is wrong");
@@ -55,9 +55,10 @@ public class AssetManager {
         Asset a=assets.stream().filter(a1->assetNumber == a1.getAssetNumber()).findAny().orElse(null);
         if(a != null)
         {
-            if(a.isAssignedToEmployee() && !a.isScrapped()) {
+            if(a.getAssignedTo()==false && a.getScrapped()==false) {
                 employee.getList().stream().filter(e1->e.getNumber()==e1.getNumber()).findAny().get().setAssetNumbers(a.getAssetNumber());
-                assets.stream().filter(a1->a.getAssetNumber()==a1.getAssetNumber()).findAny().get().setStore(0);
+                assets.stream().filter(a1->a.getAssetNumber()==a1.getAssetNumber()).findAny().get().setAssignedTo(true);
+                assetHashMap.remove(a.getAssetNumber());
             }
             else
             {
@@ -74,14 +75,14 @@ public class AssetManager {
     {
             System.out.println("AssetNumber\tAssetName");
             assets.forEach((a) -> {
-                if (!a.isAssignedToEmployee()) {
+                if (a.getAssignedTo()==true) {
                     System.out.println(a.getAssetNumber() + ":" + a.getAssetName());
                     System.out.println("Enter the asset number to be returned");
-                    int assetNumber = s.nextInt();
+                    long assetNumber = s.nextLong();
                     Asset b = assets.stream().filter(a1 -> a1.getAssetNumber() == assetNumber).findAny().orElse(null);
                     if (b != null) {
                         employee.getList().stream().filter(e1 -> e1.getAssetNumbers().contains(b.getAssetNumber())).findAny().get().removeAsset(b.getAssetNumber());
-                        assets.stream().filter(a1 -> b.getAssetNumber() == a1.getAssetNumber()).findAny().get().setStore(1);
+                        assets.stream().filter(a1 -> b.getAssetNumber() == a1.getAssetNumber()).findAny().get().setAssignedTo(false);
                     } else {
                         System.out.println("Asset number is wrong");
                     }
@@ -89,14 +90,16 @@ public class AssetManager {
             });
     }
 
-    public void addToScrapList()
-    {
+    public void addToScrapList(){
+
         System.out.println("Asset Numbers and Name");
         assets.forEach(a->System.out.println(a.getAssetNumber()+":"+a.getAssetName()));
         System.out.println("Enter the asset number added to the scrap");
-        int assetNumber = s.nextInt();
-        if(assets.stream().filter(a->a.getAssetNumber()==assetNumber).findAny().orElse(null) != null)
-            assets.stream().filter(a->a.getAssetNumber()==assetNumber).findAny().get().setScrap(1);
+        long assetNumber = s.nextLong();
+        if(assets.stream().filter(a->a.getAssetNumber()==assetNumber).findAny().orElse(null) != null) {
+            assets.stream().filter(a -> a.getAssetNumber() == assetNumber).findAny().get().setScrapped(true);
+            System.out.println("Asset is added to scrap list");
+        }
         else
             System.out.println("Asset number is wrong");
     }
@@ -106,7 +109,7 @@ public class AssetManager {
         System.out.println("Asset Numbers and Name");
         assets.forEach(a->System.out.println(a.getAssetNumber()+":"+a.getAssetName()));
         System.out.println("Enter the asset number to be updated");
-        int assetNumber = s.nextInt();
+        long assetNumber = s.nextLong();
         Asset a=assets.stream().filter(a1->assetNumber == a1.getAssetNumber()).findAny().orElse(null);
         if(a != null)
         {
@@ -184,7 +187,7 @@ public class AssetManager {
     public void displayStore()
     {
         assets.forEach((a)->{
-            if(a.isAssignedToEmployee())
+            if(a.getAssignedTo()==false)
             {
                 printAssetswithBrand(a);
             }
@@ -206,7 +209,7 @@ public class AssetManager {
         System.out.println("Asset Numbers");
         assets.forEach(a->System.out.println(a.getAssetNumber()));
         System.out.println("Enter the asset number to fetch details");
-        int assetNumber = s.nextInt();
+        long assetNumber = s.nextLong();
         AtomicBoolean flag= new AtomicBoolean(false);
         assets.forEach((a)->{
             if(a.getAssetNumber()==assetNumber)
@@ -229,21 +232,17 @@ public class AssetManager {
         int assetNumber = s.nextInt();
         if(assets.stream().filter(a->a.getAssetNumber()==assetNumber).findAny().orElse(null) != null)
         {
-            if (assets.stream().filter(a -> a.getAssetNumber() == assetNumber).findAny().get().isAssignedToEmployee())
+            if (assets.stream().filter(a -> a.getAssetNumber() == assetNumber).findAny().get().getAssignedTo())
             {
-                System.out.println("Asset is not assigned to an Employee");
+                System.out.println("Asset is assigned to an Employee");
             }
             else
             {
-                System.out.println("Asset is assigned to an Employee");
+                System.out.println("Asset is not assigned to an Employee");
             }
         }
         else
             System.out.println("Asset number is wrong");
     }
-
-
-
-
 }
 
