@@ -1,23 +1,21 @@
 package com.company.asset;
 
 public class Brand {
-    int brandId;
-    String brandName;
+    int id;
+    String name;
     String logo;
 
-    Brand(int brandId, String brandName,String logo){
-        this.brandId=brandId;
-        this.brandName=brandName;
+    Brand(int id, String name,String logo){
+        this.id=id;
+        this.name=name;
         this.logo=logo;
-
-
     }
 
-    public void setBrandId(int brandId){
-        this.brandId=brandId;
+    public void setBrandId(int id){
+        this.id=id;
     }
-    public void setBrandName(String brandName){
-        this.brandName=brandName;
+    public void setBrandName(String name){
+        this.name=name;
     }
     public void setLogo(String logo){
         this.logo=logo;
@@ -25,11 +23,11 @@ public class Brand {
 
 
     public int getBrandId() {
-        return brandId;
+        return id;
     }
 
     public String getBrandName() {
-        return brandName;
+        return name;
     }
 
     public String getLogo() {

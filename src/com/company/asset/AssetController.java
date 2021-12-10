@@ -136,7 +136,7 @@ public class AssetController {
                     break;
                 case 8:assetManager.displayAssetWithBrand();
                     break;
-                case 9:assetManager.displayEmployee();
+                case 9:assetManager.displayEmployeeWithAssets();
                     break;
                 case 10:assetManager.displayStore();
                     break;

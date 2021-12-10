@@ -11,9 +11,7 @@ public class Employee {
     private Designations designation;
     private int organisation;
     private List<Integer> assetNumbers= new ArrayList<>();
-    Employee()
-    {
-    }
+
     Employee(String name, int number, String dob, String address, Designations designation, int organisation)
     {
         this.name=name;

@@ -157,8 +157,8 @@ public class AssetManager {
         System.out.println("Asset Make:"+assets.getMake());
         System.out.println("Asset Amount:"+assets.getAmount());
         System.out.println("Asset Invoice Details:"+assets.getInvoiceDetails());
-        System.out.println("Asset Brand id:"+assets.getBrand().brandId);
-        System.out.println("Asset Brand Name:"+assets.getBrand().brandName);
+        System.out.println("Asset Brand id:"+assets.getBrand().id);
+        System.out.println("Asset Brand Name:"+assets.getBrand().name);
         System.out.println("Asset Brand logo:"+assets.getBrand().logo);
         System.out.println("--------------------------------------------------------------------------------------------");
     }
@@ -192,8 +192,8 @@ public class AssetManager {
     }
 
     public void displayBrands(Asset assets){
-        System.out.println("Asset Brand id:"+assets.getBrand().brandId);
-        System.out.println("Asset Brand Name:"+assets.getBrand().brandName);
+        System.out.println("Asset Brand id:"+assets.getBrand().id);
+        System.out.println("Asset Brand Name:"+assets.getBrand().name);
         System.out.println("Asset Brand logo:"+assets.getBrand().logo);
     }
 
