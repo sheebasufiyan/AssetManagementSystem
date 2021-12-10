@@ -163,14 +163,14 @@ public class AssetManager {
         System.out.println("--------------------------------------------------------------------------------------------");
     }
 
-    public void displayEmployee()
+    public void displayEmployeeWithAssets()
     {
-        employee.getList().forEach(e->e.getAssetNumbers().forEach((l)->{
+        employee.getList().forEach(employess->employess.getAssetNumbers().forEach((employees)->{
             for(Asset assetList:assets)
             {
-                if (l == assetList.getAssetNumber())
+                if (employees == assetList.getAssetNumber())
                 {
-                    System.out.println("Employee Name:"+e.getName());
+                    System.out.println("Employee Name:"+employess.getName());
                     printAssetswithBrand(assetList);
                 }
             }
@@ -240,7 +240,7 @@ public class AssetManager {
 
 
     // Returns check digit for 14 digit IMEI prefix
-    public static int getCheckDigit(String imeiPrefix) {
+    public int getCheckDigit(String imeiPrefix) {
         int sum = 0;
         for(int index = 13;index>=0;index=index-1) {
             String sDigit = imeiPrefix.substring(index,index+1);
@@ -256,7 +256,7 @@ public class AssetManager {
     }
 
     // Calculate sum of digits for a number
-    private static int sumOfDigits(int number) {
+    private int sumOfDigits(int number) {
         int sum=0;
         while(number > 0) {
             sum += number%10;
