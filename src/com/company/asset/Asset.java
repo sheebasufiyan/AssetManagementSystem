@@ -9,7 +9,7 @@ public class Asset {
     private int assetNumber;
     private AssetType type;
     private long imei;
-    private int assignedTo;
+    private int assignedTo=0;
     private boolean isScrapped=false;
 
 

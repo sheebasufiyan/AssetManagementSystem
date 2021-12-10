@@ -49,7 +49,7 @@ public class AssetManager {
         if(filteredAsset != null)
         {
             if( filteredAsset.getScrapped()==false) {
-                employee.getList().stream().filter(e1->e.getNumber()==e1.getNumber()).findAny().get().setAssetNumbers(filteredAsset.getAssetNumber());
+//                employee.getList().stream().filter(e1->e.getNumber()==e1.getNumber()).findAny().get().setAssetNumbers(filteredAsset.getAssetNumber());
                 assets.stream().filter(a1->filteredAsset.getAssetNumber()==a1.getAssetNumber()).findAny().get().setAssignedTo(e.getNumber());
                 System.out.println("Asset is assigned to employee");
             }
@@ -165,10 +165,10 @@ public class AssetManager {
 
     public void displayEmployeeWithAssets()
     {
-        employee.getList().forEach(employess->employess.getAssetNumbers().forEach((employees)->{
+        employee.getList().forEach(employess->employess.getAssetNumbers().forEach((employes)->{
             for(Asset assetList:assets)
             {
-                if (employees == assetList.getAssetNumber())
+                if (employes== assetList.getAssetNumber())
                 {
                     System.out.println("Employee Name:"+employess.getName());
                     printAssetswithBrand(assetList);
