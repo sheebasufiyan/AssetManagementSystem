@@ -27,11 +27,10 @@ public class AssetManager {
     {
         employee.display();
         System.out.println("Enter employee number to whom asset to be assigned");
-        int i=0;
         int employeeNumber=s.nextInt();
-        Employee e=employee.getList().stream().filter(e1->employeeNumber==e1.getNumber()).findAny().orElse(null);
-        if(e != null) {
-            assignAsset(e);
+        Employee employees=employee.getList().stream().filter(e1->employeeNumber==e1.getNumber()).findAny().orElse(null);
+        if(employees != null) {
+            assignAsset(employees);
         }
         else
         {
@@ -46,12 +45,12 @@ public class AssetManager {
         assets.forEach(a->System.out.println(a.getAssetNumber()+":"+a.getAssetName()));
         System.out.println("Enter the asset number to be assigned");
         int assetNumber = s.nextInt();
-        Asset a=assets.stream().filter(a1->assetNumber == a1.getAssetNumber()).findAny().orElse(null);
-        if(a != null)
+        Asset filteredAsset=assets.stream().filter(assetIndex->assetNumber == assetIndex.getAssetNumber()).findAny().orElse(null);
+        if(filteredAsset != null)
         {
-            if( a.getScrapped()==false) {
-                employee.getList().stream().filter(e1->e.getNumber()==e1.getNumber()).findAny().get().setAssetNumbers(a.getAssetNumber());
-                assets.stream().filter(a1->a.getAssetNumber()==a1.getAssetNumber()).findAny().get().setAssignedTo(e.getNumber());
+            if( filteredAsset.getScrapped()==false) {
+                employee.getList().stream().filter(e1->e.getNumber()==e1.getNumber()).findAny().get().setAssetNumbers(filteredAsset.getAssetNumber());
+                assets.stream().filter(a1->filteredAsset.getAssetNumber()==a1.getAssetNumber()).findAny().get().setAssignedTo(e.getNumber());
                 System.out.println("Asset is assigned to employee");
             }
             else
@@ -73,10 +72,10 @@ public class AssetManager {
                     System.out.println(a.getAssetNumber() + ":" + a.getAssetName());
                     System.out.println("Enter the asset number to be returned");
                     long assetNumber = s.nextLong();
-                    Asset b = assets.stream().filter(a1 -> a1.getAssetNumber() == assetNumber).findAny().orElse(null);
-                    if (b != null) {
+                    Asset filteredAsset = assets.stream().filter(assetIndex -> assetIndex.getAssetNumber() == assetNumber).findAny().orElse(null);
+                    if (filteredAsset!= null) {
 //                        employee.getList().stream().filter(e1 -> e1.getAssetNumbers().contains(b.getAssetNumber())).findAny().get().removeAsset(b.getAssetNumber());
-                        assets.stream().filter(a1 -> b.getAssetNumber() == a1.getAssetNumber()).findAny().get().setAssignedTo(0);
+                        assets.stream().filter(indexOfAsset-> filteredAsset.getAssetNumber() == indexOfAsset.getAssetNumber()).findAny().get().setAssignedTo(0);
                     } else {
                         System.out.println("Asset number is wrong");
                     }
@@ -90,8 +89,8 @@ public class AssetManager {
         assets.forEach(a->System.out.println(a.getAssetNumber()+":"+a.getAssetName()));
         System.out.println("Enter the asset number added to the scrap");
         long assetNumber = s.nextLong();
-        if(assets.stream().filter(a->a.getAssetNumber()==assetNumber).findAny().orElse(null) != null) {
-            assets.stream().filter(a -> a.getAssetNumber() == assetNumber).findAny().get().setScrapped(true);
+        if(assets.stream().filter(assetIndex->assetIndex.getAssetNumber()==assetNumber).findAny().orElse(null) != null) {
+            assets.stream().filter(index ->index.getAssetNumber() == assetNumber).findAny().get().setScrapped(true);
             System.out.println("Asset is added to scrap list");
         }
         else
@@ -104,22 +103,22 @@ public class AssetManager {
         assets.forEach(a->System.out.println(a.getAssetNumber()+":"+a.getAssetName()));
         System.out.println("Enter the asset number to be updated");
         long assetNumber = s.nextLong();
-        Asset a=assets.stream().filter(a1->assetNumber == a1.getAssetNumber()).findAny().orElse(null);
-        if(a != null)
+        Asset filterAsset=assets.stream().filter(index->assetNumber == index.getAssetNumber()).findAny().orElse(null);
+        if(filterAsset != null)
         {
             System.out.println("What has to be updated\n1.AssetName\n2.Asset Number\n3.Asset make\n4.Asset Amount\n5.Asset Invoice Details");
             int ch=s.nextInt();
             switch(ch)
             {
-                case 1:assets.stream().filter(a1->a.getAssetName()==a1.getAssetName()).findAny().get().setAssetName(s.next());
+                case 1:assets.stream().filter(previousAsset->filterAsset.getAssetName()==previousAsset.getAssetName()).findAny().get().setAssetName(s.next());
                     break;
-                case 2:assets.stream().filter(a1->a.getAssetNumber()==a1.getAssetNumber()).findAny().get().setAssetNumber(s.nextInt());
+                case 2:assets.stream().filter(previousAsset->filterAsset.getAssetNumber()==previousAsset.getAssetNumber()).findAny().get().setAssetNumber(s.nextInt());
                     break;
-                case 3:assets.stream().filter(a1->a.getMake()==a1.getMake()).findAny().get().setMake(s.nextInt());
+                case 3:assets.stream().filter(previousAsset->filterAsset.getMake()==previousAsset.getMake()).findAny().get().setMake(s.nextInt());
                     break;
-                case 4:assets.stream().filter(a1->a.getAmount()==a1.getAmount()).findAny().get().setAmount(s.nextInt());
+                case 4:assets.stream().filter(previousAsset->filterAsset.getAmount()==previousAsset.getAmount()).findAny().get().setAmount(s.nextInt());
                     break;
-                case 5:assets.stream().filter(a1->a.getInvoiceDetails()==a1.getInvoiceDetails()).findAny().get().setInvoiceDetails(s.next());
+                case 5:assets.stream().filter(previousAsset->filterAsset.getInvoiceDetails()==previousAsset.getInvoiceDetails()).findAny().get().setInvoiceDetails(s.next());
                     break;
                 default:System.out.println("Invalid Input");
             }
@@ -132,47 +131,47 @@ public class AssetManager {
 
     public void displayAsset()
     {
-        assets.forEach(a->printAssets(a));
+        assets.forEach(allassets->printAssets(allassets));
 
     }
 
-    public void printAssets(Asset a)
+    public void printAssets(Asset assets)
     {
-        System.out.println("Asset Name:"+a.getAssetName());
-        System.out.println("Asset Number:"+a.getAssetNumber());
-        System.out.println("Asset Make:"+a.getMake());
-        System.out.println("Asset Amount:"+a.getAmount());
-        System.out.println("Asset Invoice Details:"+a.getInvoiceDetails());
+        System.out.println("Asset Name:"+assets.getAssetName());
+        System.out.println("Asset Number:"+assets.getAssetNumber());
+        System.out.println("Asset Make:"+assets.getMake());
+        System.out.println("Asset Amount:"+assets.getAmount());
+        System.out.println("Asset Invoice Details:"+assets.getInvoiceDetails());
         System.out.println("--------------------------------------------------------------------------------------------");
 
     }
 
     public void displayAssetWithBrand(){
-        assets.forEach(a->printAssetswithBrand(a));
+        assets.forEach(allAssets->printAssetswithBrand(allAssets));
 
     }
-    public void printAssetswithBrand(Asset a){
+    public void printAssetswithBrand(Asset assets){
 
-        System.out.println("Asset Name:"+a.getAssetName());
-        System.out.println("Asset Number:"+a.getAssetNumber());
-        System.out.println("Asset Make:"+a.getMake());
-        System.out.println("Asset Amount:"+a.getAmount());
-        System.out.println("Asset Invoice Details:"+a.getInvoiceDetails());
-        System.out.println("Asset Brand id:"+a.getBrand().brandId);
-        System.out.println("Asset Brand Name:"+a.getBrand().brandName);
-        System.out.println("Asset Brand logo:"+a.getBrand().logo);
+        System.out.println("Asset Name:"+assets.getAssetName());
+        System.out.println("Asset Number:"+assets.getAssetNumber());
+        System.out.println("Asset Make:"+assets.getMake());
+        System.out.println("Asset Amount:"+assets.getAmount());
+        System.out.println("Asset Invoice Details:"+assets.getInvoiceDetails());
+        System.out.println("Asset Brand id:"+assets.getBrand().brandId);
+        System.out.println("Asset Brand Name:"+assets.getBrand().brandName);
+        System.out.println("Asset Brand logo:"+assets.getBrand().logo);
         System.out.println("--------------------------------------------------------------------------------------------");
     }
 
     public void displayEmployee()
     {
         employee.getList().forEach(e->e.getAssetNumbers().forEach((l)->{
-            for(Asset a:assets)
+            for(Asset assetList:assets)
             {
-                if (l == a.getAssetNumber())
+                if (l == assetList.getAssetNumber())
                 {
                     System.out.println("Employee Name:"+e.getName());
-                    printAssetswithBrand(a);
+                    printAssetswithBrand(assetList);
                 }
             }
         }));
@@ -180,35 +179,35 @@ public class AssetManager {
 
     public void displayStore()
     {
-        assets.forEach((a)->{
-            if(a.getAssignedTo()==0)
+        assets.forEach((assets)->{
+            if(assets.getAssignedTo()==0)
             {
-                printAssetswithBrand(a);
+                printAssetswithBrand(assets);
             }
         });
     }
 
     public void displayBranddetails(){
-        assets.forEach(a->displayBrands(a));
+        assets.forEach(assets->displayBrands(assets));
     }
 
-    public void displayBrands(Asset a){
-        System.out.println("Asset Brand id:"+a.getBrand().brandId);
-        System.out.println("Asset Brand Name:"+a.getBrand().brandName);
-        System.out.println("Asset Brand logo:"+a.getBrand().logo);
+    public void displayBrands(Asset assets){
+        System.out.println("Asset Brand id:"+assets.getBrand().brandId);
+        System.out.println("Asset Brand Name:"+assets.getBrand().brandName);
+        System.out.println("Asset Brand logo:"+assets.getBrand().logo);
     }
 
     public void assetDetailsFromAssetNumber()
     {
         System.out.println("Asset Numbers");
-        assets.forEach(a->System.out.println(a.getAssetNumber()));
+        assets.forEach(assets->System.out.println(assets.getAssetNumber()));
         System.out.println("Enter the asset number to fetch details");
         long assetNumber = s.nextLong();
         AtomicBoolean flag= new AtomicBoolean(false);
-        assets.forEach((a)->{
-            if(a.getAssetNumber()==assetNumber)
+        assets.forEach((assets)->{
+            if(assets.getAssetNumber()==assetNumber)
             {
-                printAssets(a);
+                printAssets(assets);
                 flag.set(true);
             }
         });
@@ -221,12 +220,12 @@ public class AssetManager {
     public void assignedAssetToEmployee()
     {
         System.out.println("Asset Numbers and Name");
-        assets.forEach(a->System.out.println(a.getAssetNumber()+":"+a.getAssetName()));
+        assets.forEach(assets->System.out.println(assets.getAssetNumber()+":"+assets.getAssetName()));
         System.out.println("Enter the asset number to be fetched");
         int assetNumber = s.nextInt();
-        if(assets.stream().filter(a->a.getAssetNumber()==assetNumber).findAny().orElse(null) != null)
+        if(assets.stream().filter(assets->assets.getAssetNumber()==assetNumber).findAny().orElse(null) != null)
         {
-            if (assets.stream().filter(a -> a.getAssetNumber() == assetNumber).findAny().get().getAssignedTo()!=0)
+            if (assets.stream().filter(assets -> assets.getAssetNumber() == assetNumber).findAny().get().getAssignedTo()!=0)
             {
                 System.out.println("Asset is assigned to an Employee");
             }
@@ -243,10 +242,10 @@ public class AssetManager {
     // Returns check digit for 14 digit IMEI prefix
     public static int getCheckDigit(String imeiPrefix) {
         int sum = 0;
-        for(int i = 13;i>=0;i=i-1) {
-            String sDigit = imeiPrefix.substring(i,i+1);
+        for(int index = 13;index>=0;index=index-1) {
+            String sDigit = imeiPrefix.substring(index,index+1);
             int digit = Integer.valueOf(sDigit);
-            if(i%2==0) {
+            if(index%2==0) {
                 sum = sum + digit;
             }else {
                 sum = sum + sumOfDigits(digit*2);
@@ -257,7 +256,7 @@ public class AssetManager {
     }
 
     // Calculate sum of digits for a number
-    public static int sumOfDigits(int number) {
+    private static int sumOfDigits(int number) {
         int sum=0;
         while(number > 0) {
             sum += number%10;
