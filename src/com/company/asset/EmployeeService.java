@@ -18,7 +18,6 @@ public class EmployeeService {
         return org.get(company);
     }
 
-
     public int employeeNumber()
     {
         DecimalFormat decimalFormat=new DecimalFormat("0000");

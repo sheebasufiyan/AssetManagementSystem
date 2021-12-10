@@ -7,28 +7,26 @@ public class Asset {
     private String invoiceDetails;
     private Brand brand;
     private int assetNumber;
-    private TypeOf type;
-    private long IMEI;
-    private boolean assignedTo=false;
+    private AssetType type;
+    private long imei;
+    private int assignedTo;
     private boolean isScrapped=false;
 
 
     public Asset() {}
 
-    public Asset(String assetName, int assetNumber, int make, int amount, String invoiceDetails, Brand brand,TypeOf type,long imei,boolean assignedTo,boolean isScrapped) {
+    public Asset(String assetName, int assetNumber, int make, int amount, String invoiceDetails, Brand brand, AssetType type, long imei) {
         this.assetName = assetName;
         this.make = make;
         this.amount = amount;
         this.invoiceDetails = invoiceDetails;
         this.brand = brand;
         this.assetNumber = assetNumber;
-        this.IMEI=imei;
-        this.isScrapped=isScrapped;
-        this.assignedTo=assignedTo;
+        this.imei=imei;
         this.type=type;
     }
 
-    public Asset(String assetName, int assetNumber, int make, int amount, String invoiceDetails, Brand brand,TypeOf type,boolean isScrapped,boolean assignedTo) {
+    public Asset(String assetName, int assetNumber, int make, int amount, String invoiceDetails, Brand brand, AssetType type) {
         this.assetName = assetName;
         this.make = make;
         this.amount = amount;
@@ -36,16 +34,13 @@ public class Asset {
         this.brand = brand;
         this.assetNumber = assetNumber;
         this.type=type;
-        this.assignedTo=assignedTo;
-        this.isScrapped=isScrapped;
-
     }
 
-    public void setType(TypeOf type){
+    public void setType(AssetType type){
         this.type=type;
     }
 
-    public TypeOf getType() {
+    public AssetType getType() {
         return type;
     }
 
@@ -75,7 +70,7 @@ public class Asset {
         this.brand = brand;
     }
 
-    public void setAssignedTo(boolean assignedTo){
+    public void setAssignedTo(int assignedTo){
         this.assignedTo=assignedTo;
     }
 
@@ -87,7 +82,7 @@ public class Asset {
         return isScrapped;
     }
 
-    public boolean getAssignedTo() {
+    public int getAssignedTo() {
         return assignedTo;
     }
 
@@ -112,11 +107,11 @@ public class Asset {
     }
 
     public void setIMEI(long imei) {
-        IMEI = imei;
+        this.imei = imei;
     }
 
     public long getIMEI() {
-        return IMEI;
+        return imei;
     }
 
     public Brand getBrand() {

@@ -77,28 +77,38 @@ public class AssetController {
                                         "5.CHAIR;");
                                 int type=sc.nextInt();
                                 switch (type){
-                                    case 1:Asset asset=new Asset(assetName,assetNumbers,make,amount,invoiceDetails,brand,TypeOf.COMPUTER,false,false);
+                                    case 1:Asset asset=new Asset(assetName,assetNumbers,make,amount,invoiceDetails,brand, AssetType.COMPUTER);
                                             assetManager.createAsset(asset);
                                             condition=false;
                                     break;
                                     case 2:System.out.println("Enter IMEI number");
-                                        long IMEI=sc.nextLong();
-                                        asset=new Asset(assetName,assetNumbers,make,amount,invoiceDetails,brand,TypeOf.MOBILE,IMEI,false,false);
+                                            String imei = sc.next();
+                                            try {
+                                                int computedCheckDigit = assetManager.getCheckDigit(imei.substring(0, 14));
+                                                int checkDigitInSource = Integer.valueOf(imei.substring(14));
+                                                if (computedCheckDigit == checkDigitInSource) {
+                                                    asset = new Asset(assetName, assetNumbers, make, amount, invoiceDetails, brand, AssetType.MOBILE, checkDigitInSource);
+                                                    assetManager.createAsset(asset);
+                                                } else {
+                                                    System.out.println("Invalid IMEI!!!\nEnter valid IMEI number");
+                                                }
+                                            } catch (Exception e) {
+                                                System.out.println("Enter 15 digit valid imei number");
+                                            }
+                                        condition=false;
+                                        break;
+                                    case 3: asset=new Asset(assetName,assetNumbers,make,amount,invoiceDetails,brand, AssetType.CABLE);
                                         assetManager.createAsset(asset);
                                         condition=false;
                                         break;
-                                    case 3: asset=new Asset(assetName,assetNumbers,make,amount,invoiceDetails,brand,TypeOf.CABLE,false,false);
+                                    case 4: asset=new Asset(assetName,assetNumbers,make,amount,invoiceDetails,brand, AssetType.TABLE);
+                                        assetManager.createAsset(asset);
+                                        break;
+                                    case 5:asset=new Asset(assetName,assetNumbers,make,amount,invoiceDetails,brand, AssetType.CHAIR);
                                         assetManager.createAsset(asset);
                                         condition=false;
                                         break;
-                                    case 4: asset=new Asset(assetName,assetNumbers,make,amount,invoiceDetails,brand,TypeOf.TABLE,false,false);
-                                        assetManager.createAsset(asset);
-                                        break;
-                                    case 5:asset=new Asset(assetName,assetNumbers,make,amount,invoiceDetails,brand,TypeOf.CHAIR,false,false);
-                                        assetManager.createAsset(asset);
-                                        condition=false;
-                                        break;
-                                    default:System.out.println("Invaliod type");
+                                    default:System.out.println("Invalid type");
                                 }
                         }
                     } else {
